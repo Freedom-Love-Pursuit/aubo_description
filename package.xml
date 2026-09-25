@@ -21,5 +21,6 @@
     <build_type condition="$ROS_VERSION == 1">catkin</build_type>
     <build_type condition="$ROS_VERSION == 2">ament_cmake</build_type>
   </export>
+  <exec_depend>robotiq_description</exec_depend>
 </package>
 

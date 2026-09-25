@@ -7,10 +7,32 @@
     <xacro:property name="aubo_type" value="$(arg aubo_type)"/>
   <xacro:arg name="use_fake_hardware" default="true"/>
     <xacro:property name="use_fake_hardware" value="$(arg use_fake_hardware)"/>
+  <xacro:arg name="gripper_mode" default="mock"/>
+  <xacro:arg name="gripper_port" default=""/>
+  <xacro:property name="gripper_mode" value="$(arg gripper_mode)"/>
+  <xacro:property name="gripper_port" value="$(arg gripper_port)"/>
+  <xacro:if value="${gripper_mode not in ['mock', 'dummy', 'real']}">
+    ${xacro.fatal('gripper_mode must be mock, dummy or real')}
+  </xacro:if>
+  <xacro:if value="${gripper_mode == 'real' and not gripper_port}">
+    ${xacro.fatal('real gripper requires an explicit gripper_port')}
+  </xacro:if>  
   <xacro:include filename="$(find aubo_description)/urdf/xacro/inc/aubo_ros2_macro.xacro"/>
   <xacro:aubo_robot 
     transmission_hw_interface="$(arg transmission_hw_interface)" 
     aubo_type="${aubo_type}"/>
+  
+  <!-- Mount Robotiq 2F-85 on AUBO ee_link -->
+  <xacro:include
+    filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro"/>
+
+  <xacro:robotiq_gripper
+    name="robotiq_85"
+    prefix=""
+    parent="ee_link"
+    include_ros2_control="false">
+    <origin xyz="0 0 0.01" rpy="0 0 0"/>
+  </xacro:robotiq_gripper>  
   <!-- ros2_control -->
   <xacro:include filename="$(find aubo_description)/urdf/xacro/inc/aubo.ros2_control.xacro" />
   <xacro:aubo_ros2_control
@@ -18,4 +40,88 @@
     prefix=""
     use_fake_hardware="${use_fake_hardware}"
     robot_ip="${robot_ip}"/>
+  
+  <!-- Gripper selection is independent of the arm hardware. -->
+  <xacro:if value="${gripper_mode == 'mock'}">
+      <ros2_control name="robotiqGripperMock" type="system">
+        <hardware>
+          <plugin>mock_components/GenericSystem</plugin>
+        </hardware>
+
+        <!-- The only commanded gripper joint -->
+        <joint name="robotiq_85_left_knuckle_joint">
+          <command_interface name="position">
+            <param name="min">0.0</param>
+            <param name="max">0.7929</param>
+          </command_interface>
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+        </joint>
+
+        <!-- Five joints following the main joint -->
+        <joint name="robotiq_85_right_knuckle_joint" mimic="true">
+          <param name="mimic">robotiq_85_left_knuckle_joint</param>
+          <param name="multiplier">-1</param>
+          <state_interface name="position"/>
+        </joint>
+
+        <joint name="robotiq_85_left_inner_knuckle_joint" mimic="true">
+          <param name="mimic">robotiq_85_left_knuckle_joint</param>
+          <param name="multiplier">1</param>
+          <state_interface name="position"/>
+        </joint>
+
+        <joint name="robotiq_85_right_inner_knuckle_joint" mimic="true">
+          <param name="mimic">robotiq_85_left_knuckle_joint</param>
+          <param name="multiplier">-1</param>
+          <state_interface name="position"/>
+        </joint>
+
+        <joint name="robotiq_85_left_finger_tip_joint" mimic="true">
+          <param name="mimic">robotiq_85_left_knuckle_joint</param>
+          <param name="multiplier">-1</param>
+          <state_interface name="position"/>
+        </joint>
+
+        <joint name="robotiq_85_right_finger_tip_joint" mimic="true">
+          <param name="mimic">robotiq_85_left_knuckle_joint</param>
+          <param name="multiplier">1</param>
+          <state_interface name="position"/>
+        </joint>
+      </ros2_control>
+  </xacro:if>
+  <xacro:if value="${gripper_mode in ['dummy', 'real']}">
+      <ros2_control name="robotiqGripper" type="system">
+        <hardware>
+          <plugin>robotiq_driver/RobotiqGripperHardwareInterface</plugin>
+          <param name="use_dummy">${gripper_mode == 'dummy'}</param>
+          <param name="COM_port">${gripper_port if gripper_mode == 'real' else '/tmp/robotiq_dummy_no_serial'}</param>
+          <param name="baudrate">115200</param>
+          <param name="gripper_closed_position">0.7929</param>
+        </hardware>
+
+        <!-- Real driver exposes interfaces for the main joint only -->
+        <joint name="robotiq_85_left_knuckle_joint">
+          <command_interface name="position">
+            <param name="min">0.0</param>
+            <param name="max">0.7929</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="motor_current"/>
+          <state_interface name="object_status"/>
+          <state_interface name="gripper_fault"/>
+          <state_interface name="gripper_fault_severity"/>
+        </joint>
+
+        <gpio name="reactivate_gripper">
+          <command_interface name="reactivate_gripper_cmd"/>
+          <command_interface name="reactivate_gripper_response"/>
+        </gpio>
+      </ros2_control>
+  </xacro:if>
 </robot>

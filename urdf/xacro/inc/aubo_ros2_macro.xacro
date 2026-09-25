@@ -9,14 +9,8 @@
       <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 ${pi/2.0}" />
     </joint>
 
-    <link name="ee_link">
-      <collision>
-        <geometry>
-          <box size="0.01 0.01 0.01"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="-0.01 0 0"/>
-      </collision>
-    </link>
+    <!-- Virtual end-effector frame; physical flange geometry belongs to wrist3_Link. -->
+<link name="ee_link"/>
     
     <transmission name="shoulder_trans">
       <type>transmission_interface/SimpleTransmission</type>
