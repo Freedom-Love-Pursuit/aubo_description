@@ -349,7 +349,7 @@ def resolve_urdf_candidate(path_or_name: str, package_root: str) -> str:
     if os.path.isabs(value) or os.path.sep in value:
         return os.path.abspath(value)
 
-    if value.endswith(".urdf"):
+    if value.endswith(".urdf") or value.endswith(".xacro"):
         return os.path.join(package_root, "urdf", value)
 
     return os.path.join(package_root, "urdf", "{}.urdf".format(value))
