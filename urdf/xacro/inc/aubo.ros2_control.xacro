@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="aubo_ros2_control" params="name prefix use_fake_hardware:=false robot_ip">
+  <xacro:macro name="aubo_ros2_control" params="name prefix use_fake_hardware:=false robot_ip position_limits:=${dict()}">
+    <xacro:property name="legacy_min" value="{-2*pi}"/>
+    <xacro:property name="legacy_max" value="{2*pi}"/>
     <ros2_control name="${name}" type="system">
        <hardware>
          <!-- 假硬件模式 -->
@@ -17,8 +19,8 @@
        </hardware>
       <joint name="shoulder_joint">
         <command_interface name="position">
-          <param name="min">{-2*pi}</param>
-          <param name="max">{2*pi}</param>
+          <param name="min">${position_limits['shoulder_joint']['lower'] if position_limits else legacy_min}</param>
+          <param name="max">${position_limits['shoulder_joint']['upper'] if position_limits else legacy_max}</param>
         </command_interface>
         <command_interface name="velocity"/>
         <state_interface name="position">
@@ -28,8 +30,8 @@
       </joint>
       <joint name="upperArm_joint">
         <command_interface name="position">
-          <param name="min">{-2*pi}</param>
-          <param name="max">{2*pi}</param>
+          <param name="min">${position_limits['upperArm_joint']['lower'] if position_limits else legacy_min}</param>
+          <param name="max">${position_limits['upperArm_joint']['upper'] if position_limits else legacy_max}</param>
         </command_interface>
         <command_interface name="velocity"/>
         <state_interface name="position">
@@ -39,8 +41,8 @@
       </joint>
       <joint name="foreArm_joint">
         <command_interface name="position">
-          <param name="min">-2.41</param>
-          <param name="max">2.41</param>
+          <param name="min">${position_limits['foreArm_joint']['lower'] if position_limits else -2.41}</param>
+          <param name="max">${position_limits['foreArm_joint']['upper'] if position_limits else 2.41}</param>
         </command_interface>
         <command_interface name="velocity"/>
         <state_interface name="position">
@@ -50,8 +52,8 @@
       </joint>
       <joint name="wrist1_joint">
         <command_interface name="position">
-          <param name="min">-2.66</param>
-          <param name="max">2.66</param>
+          <param name="min">${position_limits['wrist1_joint']['lower'] if position_limits else -2.66}</param>
+          <param name="max">${position_limits['wrist1_joint']['upper'] if position_limits else 2.66}</param>
         </command_interface>
         <command_interface name="velocity"/>
         <state_interface name="position">
@@ -61,8 +63,8 @@
       </joint>
       <joint name="wrist2_joint">
         <command_interface name="position">
-          <param name="min">{-2*pi}</param>
-          <param name="max">{2*pi}</param>
+          <param name="min">${position_limits['wrist2_joint']['lower'] if position_limits else legacy_min}</param>
+          <param name="max">${position_limits['wrist2_joint']['upper'] if position_limits else legacy_max}</param>
         </command_interface>
         <command_interface name="velocity"/>
         <state_interface name="position">
@@ -72,8 +74,8 @@
       </joint>
       <joint name="wrist3_joint">
         <command_interface name="position">
-          <param name="min">-2.23</param>
-          <param name="max">2.23</param>
+          <param name="min">${position_limits['wrist3_joint']['lower'] if position_limits else -2.23}</param>
+          <param name="max">${position_limits['wrist3_joint']['upper'] if position_limits else 2.23}</param>
         </command_interface>
         <command_interface name="velocity"/>
         <state_interface name="position">

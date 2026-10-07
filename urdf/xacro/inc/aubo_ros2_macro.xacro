@@ -10,8 +10,20 @@
     </joint>
 
     <!-- Virtual end-effector frame; physical flange geometry belongs to wrist3_Link. -->
-<link name="ee_link"/>
-    
+    <link name="ee_link"/>
+
+    <!-- Intel RealSense D435i camera base frame -->
+    <link name="camera_link"/>
+
+    <!-- Eye-in-Hand hand-eye calibration result 19_NO18 + TSAI -->
+    <joint name="camera_fixed_joint" type="fixed">
+      <parent link="ee_link"/>
+      <child link="camera_link"/>
+      <origin
+        xyz="0.08054669 -0.02160629 -0.00483282"
+        rpy="-2.53460119 -1.55296946 -0.60200016"/>
+    </joint>
+
     <transmission name="shoulder_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="shoulder_joint">
@@ -21,7 +33,7 @@
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
-  
+
     <transmission name="foreArm_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="foreArm_joint">
@@ -31,7 +43,7 @@
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
-  
+
     <transmission name="upperArm_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="upperArm_joint">
@@ -41,7 +53,7 @@
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
-  
+
     <transmission name="wrist1_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="wrist1_joint">
@@ -51,7 +63,7 @@
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
-  
+
     <transmission name="wrist2_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="wrist2_joint">
@@ -61,7 +73,7 @@
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
-  
+
     <transmission name="wrist3_trans">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="wrist3_joint">
@@ -71,7 +83,7 @@
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
-    
+
     <gazebo reference="shoulder_Link">
       <selfCollide>true</selfCollide>
     </gazebo>

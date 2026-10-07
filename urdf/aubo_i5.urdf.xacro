@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <robot name="aubo_i5" xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:include filename="$(find aubo_joint_limits)/config/position_limits.xacro"/>
   <dh_type type="modified"/>
   <safety_para singularity_consistent="0.02 0.01 10 0.2 0.045 10"/>
   <friction_coeff value="0.65"/>
@@ -54,7 +55,7 @@
     <parent link="base_link" />
     <child link="shoulder_Link" />
     <axis xyz="0 0 1" />
-    <limit lower="-6.283185307179586476925286766559" upper="6.283185307179586476925286766559" effort="133" start_stop="207" velocity="2.5964" />
+    <limit lower="${arm_position_limits['shoulder_joint']['lower']}" upper="${arm_position_limits['shoulder_joint']['upper']}" effort="133" start_stop="207" velocity="2.5964" />
   </joint>
 
   <link name="upperArm_Link">
@@ -85,7 +86,7 @@
     <parent link="shoulder_Link" />
     <child link="upperArm_Link" />
     <axis xyz="0 0 1" />
-    <limit lower="-6.283185307179586476925286766559" upper="6.283185307179586476925286766559" effort="133" start_stop="207" velocity="2.5964" />
+    <limit lower="${arm_position_limits['upperArm_joint']['lower']}" upper="${arm_position_limits['upperArm_joint']['upper']}" effort="133" start_stop="207" velocity="2.5964" />
   </joint>
 
   <link name="foreArm_Link">
@@ -116,7 +117,7 @@
     <parent link="upperArm_Link" />
     <child link="foreArm_Link" />
     <axis xyz="0 0 1" />
-    <limit lower="-6.283185307179586476925286766559" upper="6.283185307179586476925286766559" effort="133" start_stop="207" velocity="2.5964" />
+    <limit lower="${arm_position_limits['foreArm_joint']['lower']}" upper="${arm_position_limits['foreArm_joint']['upper']}" effort="133" start_stop="207" velocity="2.5964" />
   </joint>
 
   <link name="wrist1_Link">
@@ -147,7 +148,7 @@
     <parent link="foreArm_Link" />
     <child link="wrist1_Link" />
     <axis xyz="0 0 1" />
-    <limit lower="-6.283185307179586476925286766559" upper="6.283185307179586476925286766559" effort="13.5" start_stop="34" velocity="3.1105" />
+    <limit lower="${arm_position_limits['wrist1_joint']['lower']}" upper="${arm_position_limits['wrist1_joint']['upper']}" effort="13.5" start_stop="34" velocity="3.1105" />
   </joint>
 
   <link name="wrist2_Link">
@@ -178,7 +179,7 @@
     <parent link="wrist1_Link" />
     <child link="wrist2_Link" />
     <axis xyz="0 0 1" />
-    <limit lower="-6.283185307179586476925286766559" upper="6.283185307179586476925286766559" effort="13.5" start_stop="34" velocity="3.1105" />
+    <limit lower="${arm_position_limits['wrist2_joint']['lower']}" upper="${arm_position_limits['wrist2_joint']['upper']}" effort="13.5" start_stop="34" velocity="3.1105" />
   </joint>
 
   <link name="wrist3_Link">
@@ -209,7 +210,7 @@
     <parent link="wrist2_Link" />
     <child link="wrist3_Link" />
     <axis xyz="0 0 1" />
-    <limit lower="-6.283185307179586476925286766559" upper="6.283185307179586476925286766559" effort="13.5" start_stop="34" velocity="3.1105" />
+    <limit lower="${arm_position_limits['wrist3_joint']['lower']}" upper="${arm_position_limits['wrist3_joint']['upper']}" effort="13.5" start_stop="34" velocity="3.1105" />
   </joint>
 
   <link name="world" />

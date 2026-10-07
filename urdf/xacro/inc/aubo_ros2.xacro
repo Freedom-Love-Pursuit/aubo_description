@@ -16,12 +16,15 @@
   </xacro:if>
   <xacro:if value="${gripper_mode == 'real' and not gripper_port}">
     ${xacro.fatal('real gripper requires an explicit gripper_port')}
-  </xacro:if>  
+  </xacro:if>
   <xacro:include filename="$(find aubo_description)/urdf/xacro/inc/aubo_ros2_macro.xacro"/>
-  <xacro:aubo_robot 
-    transmission_hw_interface="$(arg transmission_hw_interface)" 
+  <xacro:if value="${aubo_type == 'aubo_i5'}">
+    <xacro:include filename="$(find aubo_joint_limits)/config/position_limits.xacro"/>
+  </xacro:if>
+  <xacro:aubo_robot
+    transmission_hw_interface="$(arg transmission_hw_interface)"
     aubo_type="${aubo_type}"/>
-  
+
   <!-- Mount Robotiq 2F-85 on AUBO ee_link -->
   <xacro:include
     filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro"/>
@@ -31,16 +34,27 @@
     prefix=""
     parent="ee_link"
     include_ros2_control="false">
-    <origin xyz="0 0 0.01" rpy="0 0 0"/>
-  </xacro:robotiq_gripper>  
+    <origin xyz="0 0 0.01" rpy="0 0 1.57079632679"/>
+  </xacro:robotiq_gripper>
+
+  <!-- Robotiq 2F-85 grasp TCP -->
+  <link name="gripper_tcp"/>
+
+  <joint name="gripper_tcp_joint" type="fixed">
+    <parent link="robotiq_85_base_link"/>
+    <child link="gripper_tcp"/>
+    <origin xyz="0 0 0.136" rpy="0 0 0"/>
+  </joint>
+
   <!-- ros2_control -->
   <xacro:include filename="$(find aubo_description)/urdf/xacro/inc/aubo.ros2_control.xacro" />
   <xacro:aubo_ros2_control
     name="auboHardwareInterface"
     prefix=""
     use_fake_hardware="${use_fake_hardware}"
+    position_limits="${arm_position_limits if aubo_type == 'aubo_i5' else dict()}"
     robot_ip="${robot_ip}"/>
-  
+
   <!-- Gripper selection is independent of the arm hardware. -->
   <xacro:if value="${gripper_mode == 'mock'}">
       <ros2_control name="robotiqGripperMock" type="system">

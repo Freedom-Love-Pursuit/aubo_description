@@ -27,8 +27,8 @@ if (DEFINED ENV{ROS_DISTRO})
     	  set(CMAKE_CXX_STANDARD_REQUIRED ON)
     	  set(CMAKE_CXX_STANDARD 14)
     	endif()
-    	execute_process(COMMAND bash xacro.sh
-    	                WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+        # Xacro files are maintained sources. Regeneration here overwrites
+        # installed position-contract references and unrelated model sources.
     	if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
           add_compile_options(-Wall -Wextra -Wpedantic)
         endif()
