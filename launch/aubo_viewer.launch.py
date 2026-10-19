@@ -96,7 +96,8 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "use_joint_state_gui",
             default_value="true",
-            description="Whether to start joint_state_publisher_gui instead of joint_state_publisher.",
+            description=("Whether to start joint_state_publisher_gui "
+                         "instead of joint_state_publisher."),
         ),
         DeclareLaunchArgument(
             "rviz_config",

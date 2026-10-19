@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+Extract and apply AUBO model calibration parameters.
+
 用途
 ----
 - 从 URDF 中提取各关节在 q=0 时的 Modified DH 参数。
@@ -258,7 +260,7 @@ def load_deltas_str(delta_input, joints_ordered: List[Dict]) -> Dict[str, Dict[s
 
 
 def load_deltas_txt_matrix(path: str, joints_ordered: List[Dict]) -> Dict[str, Dict[str, float]]:
-    """Optional MATLAB-like text parser kept for local debugging."""
+    """Parse optional MATLAB-like text for local debugging."""
     joint_names = [joint["name"] for joint in joints_ordered if joint["type"] != "fixed"]
     matlab_arrays = {}
     with open(path, "r", encoding="utf-8") as handle:

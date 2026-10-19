@@ -4,10 +4,10 @@
   <name>aubo_description</name>
   <version>1.3.3</version>
   <description>The aubo_description package</description>
-  <author email="liug@our-robotics.com">Allen Liu</author>
   <maintainer email="liug@our-robotics.com">Allen Liu</maintainer>
-  <url type="website">http://wiki.ros.org/aubo_description</url>
   <license>BSD</license>
+  <url type="website">http://wiki.ros.org/aubo_description</url>
+  <author email="liug@our-robotics.com">Allen Liu</author>
 
   <buildtool_depend condition="$ROS_VERSION == 1">catkin</buildtool_depend>
   <buildtool_depend condition="$ROS_VERSION == 2">ament_cmake</buildtool_depend>
@@ -15,6 +15,7 @@
   <test_depend condition="$ROS_VERSION == 2">ament_lint_common</test_depend>
   <exec_depend>urdf</exec_depend>
   <exec_depend>aubo_joint_limits</exec_depend>
+  <exec_depend>robotiq_description</exec_depend>
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->
@@ -22,5 +23,4 @@
     <build_type condition="$ROS_VERSION == 1">catkin</build_type>
     <build_type condition="$ROS_VERSION == 2">ament_cmake</build_type>
   </export>
-  <exec_depend>robotiq_description</exec_depend>
 </package>
