@@ -15,13 +15,18 @@
     <!-- Intel RealSense D435i camera base frame -->
     <link name="camera_link"/>
 
-    <!-- Eye-in-Hand hand-eye calibration result 19_NO18 + TSAI -->
+    <!-- Authoritative wrist handeye; byte-identical pinned source, SHA256
+         7b9438e139e2dd6b12a6a630dcf6cfe950e38f31f8ebeb548fe350cdfb833e2d.
+         RSP owns this edge. External handeye tool must use its verify-existing mode.
+         URDF RPY is fixed-axis XYZ; derive it from the original rotation matrix. -->
+    <xacro:property name="wrist_handeye" value="${xacro.load_yaml('$(find aubo_description)/urdf/calibration/handeye_d435_20261021_urdf.json')}"/>
+    <xacro:property name="wrist_T" value="${wrist_handeye['ee_link_T_camera_link']}"/>
     <joint name="camera_fixed_joint" type="fixed">
       <parent link="ee_link"/>
       <child link="camera_link"/>
       <origin
-        xyz="0.08054669 -0.02160629 -0.00483282"
-        rpy="-2.53460119 -1.55296946 -0.60200016"/>
+        xyz="${wrist_T[0][3]} ${wrist_T[1][3]} ${wrist_T[2][3]}"
+        rpy="${atan2(wrist_T[2][1], wrist_T[2][2])} ${atan2(-wrist_T[2][0], sqrt(wrist_T[2][1]**2 + wrist_T[2][2]**2))} ${atan2(wrist_T[1][0], wrist_T[0][0])}"/>
     </joint>
 
     <transmission name="shoulder_trans">

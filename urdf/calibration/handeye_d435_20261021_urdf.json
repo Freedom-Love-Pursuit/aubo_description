@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "calibration_id": "d435_20261021_urdf_adopted",
+  "status": "ACTIVE",
+  "source": {
+    "method": "PARK",
+    "estimator": "opencv_PARK_train_only",
+    "code_commit": "9eb4ce2847ceed3ecd24fe59a175134955e3194d",
+    "packet": "codex_pose_chain_run_1021/packets/pose_chain_1",
+    "packet_digest_scheme": "sha256_of_verified_SHA256SUMS",
+    "packet_sha256": "3917b3c258c4d457caaee4b18f648717c4bc9da798a6653c0129dff4e8299b98",
+    "analysis_sha256": "329eec00a74c27ff5aafe1b1de645f8b19b76dba19aa1cb4fe3155787454d381",
+    "candidate_report_sha256": "cdd7484a77bbbc9ca77946c712e4648e455a0138e38cd1c42cba0bd607b137fc",
+    "fit_samples": 8,
+    "holdout_samples": 4,
+    "split": {
+      "rule": "selected_order_mod3_v1: indices 2,5,8,11 holdout; all others train",
+      "train": [
+        "V1",
+        "P01",
+        "P11",
+        "P15",
+        "P23",
+        "P25",
+        "P03",
+        "P13"
+      ],
+      "holdout": [
+        "P07",
+        "P17",
+        "P31",
+        "P19"
+      ]
+    }
+  },
+  "frames": {
+    "parent": "ee_link",
+    "publish_child": "camera_link",
+    "calibrated_camera_frame": "camera_color_optical_frame",
+    "live_internal_parent": "camera_link",
+    "live_internal_child": "camera_color_optical_frame"
+  },
+  "camera_link_T_color_optical_measured": [
+    [
+      0.004326733884576522,
+      -0.00046633214973312853,
+      0.9999905309092774,
+      -0.00024181943445000798
+    ],
+    [
+      -0.9999857835395622,
+      0.003114434183387166,
+      0.004328165718317234,
+      0.014780828729271889
+    ],
+    [
+      -0.0031164230553511474,
+      -0.9999950414047281,
+      -0.0004528501922280159,
+      0.0001442080974811688
+    ],
+    [
+      0,
+      0,
+      0,
+      1
+    ]
+  ],
+  "ee_link_T_camera_link": [
+    [
+      0.0069774367032952745,
+      -0.017613121819733034,
+      0.9998205305537664,
+      0.08763399972854426
+    ],
+    [
+      -0.0021193037702896276,
+      -0.9998428843608776,
+      -0.017598725648475335,
+      -0.026042477216416136
+    ],
+    [
+      0.9999734116108198,
+      -0.001996129425744804,
+      -0.007013667994346547,
+      0.023033394372213974
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "holdout_board_pose_consistency": {
+    "reference": "frozen_training_board_mean",
+    "rows": [
+      {
+        "name": "P07",
+        "center_error_to_train_mm": 5.451515987794149,
+        "normal_error_to_train_deg": 0.6938306091176485
+      },
+      {
+        "name": "P17",
+        "center_error_to_train_mm": 5.2477767589899305,
+        "normal_error_to_train_deg": 0.2339383424203555
+      },
+      {
+        "name": "P31",
+        "center_error_to_train_mm": 4.108929892923869,
+        "normal_error_to_train_deg": 0.6658107022148635
+      },
+      {
+        "name": "P19",
+        "center_error_to_train_mm": 4.254790165938851,
+        "normal_error_to_train_deg": 0.3441897174442227
+      }
+    ],
+    "mean_center_mm": 4.7657532014117,
+    "max_center_mm": 5.451515987794149,
+    "max_pair_center_mm": 9.34898891656284
+  },
+  "release": {
+    "hardware_motion_authorized": false,
+    "physical_workspace_accuracy_accepted": false,
+    "production_default_changed": false,
+    "independent_validation_pending": true
+  },
+  "fk_chain": "urdf",
+  "change_from_q12": {
+    "translation_mm": 31.076432922664615,
+    "rotation_deg": 1.46746364004968
+  },
+  "limitations": [
+    "Same run and board position as training; new board position and poses must be validated.",
+    "Changing production handeye requires invalidating and recalibrating E1."
+  ],
+  "frozen_on": "2026-10-20",
+  "adoption": {
+  "date": "2026-10-21",
+  "authorization": {
+    "confirmed_ns": 1792570806030112469,
+    "user_reply": "按上述完整范围执行",
+    "question": "是否按附件采用新 URDF 手眼和新 E1，完成代码修复、离线／fake 测试与本地提交，并交付小结果包？不推送、不改现场 00a0134、不运动机械臂或夹爪；D 部分先准备测量单，需要现场尺量时再请你配合。",
+    "adopt_handeye": true,
+    "adopt_E1": true,
+    "local_commits": true,
+    "push": false,
+    "real_robot_motion": false,
+    "gripper_motion": false,
+    "production_checkout_modified": false,
+    "document_sha256": "a28c6c05299a0e4753b416fa07fd8637a782f870eb301c6afb98445f021c4f58",
+    "quoted_document_decisions_are_not_chat_verbatim": true,
+    "baseline": "3674e8b726a11ba8ebc019d2d53c9c6f343c494c"
+  },
+  "document_reported_user_quote": "采用 URDF 手眼候选",
+  "quote_attribution": "Attachment-reported wording; actual chat scope confirmation is preserved in authorization.",
+  "candidate": {
+    "path": "config/calibration/handeye_candidate_20261020_urdf.json",
+    "sha256": "7a742cf1b49666d342d980ed8ee49ddb5665f52cb2310c115d9f14c34149c430"
+  },
+  "basis": "User adoption based on sensitivity analysis and B2 ruler measurement; B1 formal acceptance remains failed.",
+  "b1_formal_status": "QUALITY_FAILED",
+  "b1_formal_acceptance": "NOT_PASSED",
+  "b1_failed_gate": {
+    "pose": "H01",
+    "frame": "002",
+    "black_pixels": 130,
+    "total_pixels": 145,
+    "fraction": 0.896551724137931,
+    "required": 0.9
+  },
+  "sensitivity": {
+    "board_center_180deg_difference_mm_approx": 1e-09,
+    "failed_frame_center_difference_mm_approx": 0.02,
+    "metrics": [
+      "mean_mm",
+      "max_deviation_mm",
+      "max_pair_mm"
+    ],
+    "urdf_all_12": [
+      4.058,
+      6.696,
+      10.124
+    ],
+    "urdf_excluding_H01": [
+      3.988,
+      6.651,
+      10.124
+    ],
+    "old_q12": [
+      18.358,
+      24.141,
+      44.882
+    ]
+  },
+  "b2": {
+    "status": "PASS",
+    "operator_ruler_mm": 1,
+    "closing_direction": "Across the 50 mm short edge"
+  },
+  "result_packages": [
+    {
+      "path": "/home/jin/Documents/Codex/2026-10-17/files-mentioned-by-the-user-codex/outputs/codex_handeye_validation_run_1021/handeye_validation_results_small_1021.zip",
+      "sha256": "3035431c162209fceda999def22e5e0b12680198d3af637f83749abb78f09da6"
+    },
+    {
+      "path": "/home/jin/Documents/Codex/2026-10-17/files-mentioned-by-the-user-codex/outputs/codex_handeye_validation_run_1021/handeye_adoption_review_supplement_1021.zip",
+      "sha256": "866734a7a9c7250ea1b380aa612fb5e5fef6d9f690819eb36d9f07b0622920c7"
+    }
+  ],
+  "limitations": [
+    "URDF residual mean about 4 mm, max pair about 10 mm; controller FK alternative about 2.3 / 6.0 mm remains report only.",
+    "Wrist depth near bias unresolved.",
+    "Collision geometry adoption is a separate audited change; dimensions and margins unchanged.",
+    "Absolute height ruler check pending; no robot-motion authorization is granted by this file."
+  ]
+}
+}

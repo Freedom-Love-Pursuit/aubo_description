@@ -1,3 +1,12 @@
+# 当前 ROS2 工程目标：AUBO E5
+
+正式入口默认 `aubo_E5_10`，使用现有 E5 厂商几何、共享六轴关节名及 `manipulator` 规划组。
+现行展开入口为 `urdf/xacro/inc/aubo_ros2.xacro`；ros2_control、MoveIt、Skill 使用同一模型。
+`urdf/aubo_E5_10.urdf` 保留厂商原始参数；`.urdf.xacro` 应用项目已有 nominal E5 软件限位，不代表实机校准验收。
+部署前必须核对 E5 实体型号/校准与安装模型。历史 i5 资产保留用于旧证据/显式离线兼容，不再是默认。
+
+以下为厂商历史多型号目录及 ROS1 使用记录，保留原型号含义；不得把末尾 ROS1 示例用作当前正式启动流程。
+
 <div align="center">
   <h1 align="center">aubo_description</h1>
   <h3 align="center">

@@ -85,8 +85,8 @@ def generate_launch_description():
     declared_arguments = [
         DeclareLaunchArgument(
             "robot_model",
-            default_value="aubo_i5",
-            description="Robot model to visualize, for example aubo_i5 or aubo_C3.",
+            default_value="aubo_E5_10",
+            description="Robot model to visualize, default aubo_E5_10; legacy vendor assets require explicit selection.",
         ),
         DeclareLaunchArgument(
             "transmission_hw_interface",
